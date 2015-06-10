@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author jupiter
  */
-@Path("my")
+@Path("you")
 public class Myresource{
     @GET
     @Produces(MediaType.TEXT_PLAIN)
