@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head profile="http://www.w3.org/2005/10/profile">
+<link rel="icon" type="image/png" href="http://www.journaldev.com/fav.png" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="pingback" href="http://www.journaldev.com/xmlrpc.php" />
+<title>Google Guice Dependency Injection Example Tutorial | JournalDev</title>
+<link rel="alternate" type="application/rss+xml" title="JournalDev &raquo; Feed" href="http://www.journaldev.com/feed" />
+<link rel="alternate" type="application/rss+xml" title="JournalDev &raquo; Comments Feed" href="http://www.journaldev.com/comments/feed" />
+<meta name="description" content="Google Guice is the framework to automate the dependency injection in applications. If you have come across directly here, I would recommend you to check out..." />
+<link rel="alternate" type="application/rss+xml" title="JournalDev &raquo; Google Guice Dependency Injection Example Tutorial Comments Feed" href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial/feed" />
+<meta name="keywords" content="dependency injection, Google Guice, google guice example, google guice tutorial" />
+<meta name="robots" content="index,follow,noodp,noydir" />
+<link rel="canonical" href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.journaldev.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.2"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='crp_list_style-css'  href='http://www.journaldev.com/wp-content/plugins/contextual-related-posts/css/default-style.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='http://www.journaldev.com/wp-includes/css/dashicons.min.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='thickbox-css'  href='http://www.journaldev.com/wp-includes/js/thickbox/thickbox.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wpdm-front-css'  href='http://www.journaldev.com/wp-content/plugins/download-manager/css/front.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='majesticpopups-style-css'  href='http://www.journaldev.com/wp-content/plugins/majestic-popups/css/majesticpopups.style.css?ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='mjstpops-google-fonts-css'  href='http://fonts.googleapis.com/css?family=Open+Sans%3A400%2C700%7CLato%3A400%2C700&#038;ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='socialbox-css'  href='http://www.journaldev.com/wp-content/plugins/socialbox/assets/css/socialbox.css?ver=1.7.3' type='text/css' media='screen' />
+<link rel='stylesheet' id='css-wpautbox-tab-css'  href='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/lib/css/jquery-a-tabs.css' type='text/css' media='all' />
+<link rel='stylesheet' id='css-wpautbox-css'  href='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/lib/css/wpautbox.css' type='text/css' media='all' />
+<link rel='stylesheet' id='css-wpautbox-red-css'  href='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/lib/css/red.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wpautbox-elusive-icon-css'  href='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/includes/ReduxFramework/ReduxCore/assets/css/vendor/elusive-icons/elusive-webfont.css?ver=http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/includes/ReduxFramework/ReduxCore/assets/css/vendor/elusive-icons/elusive-webfont.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wpautbox-elusive-icon-ie7-css'  href='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/includes/ReduxFramework/ReduxCore/assets/css/vendor/elusive-icons/elusive-webfont-ie7.css?ver=http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/includes/ReduxFramework/ReduxCore/assets/css/vendor/elusive-icons/elusive-webfont-ie7.css' type='text/css' media='all' />
+<link rel='stylesheet' id='wpt-twitter-feed-css'  href='http://www.journaldev.com/wp-content/plugins/wp-to-twitter/css/twitter-feed.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='pinboard-web-font-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,regular,italic,600,600italic|Oswald:300,300italic,regular,italic,600,600italic&#038;subset=latin' type='text/css' media='all' />
+<link rel='stylesheet' id='pinboard-css'  href='http://www.journaldev.com/wp-content/themes/pinboard-child/style.css' type='text/css' media='all' />
+<link rel='stylesheet' id='colorbox-css'  href='http://www.journaldev.com/wp-content/themes/pinboard/styles/colorbox.css' type='text/css' media='all' />
+<link rel='stylesheet' id='mailchimp-for-wp-form-theme-red-css'  href='http://www.journaldev.com/wp-content/plugins/mailchimp-for-wp/assets/css/form-theme-red.min.css?ver=2.3.4' type='text/css' media='all' />
+<link rel='stylesheet' id='scroll-triggered-boxes-css'  href='http://www.journaldev.com/wp-content/plugins/scroll-triggered-boxes/assets/css/styles.min.css?ver=2.0.2' type='text/css' media='all' />
+<link rel='stylesheet' id='fasc-buttons-style-css'  href='http://www.journaldev.com/wp-content/plugins/forget-about-shortcode-buttons/assets/css/button-styles.css?ver=1.1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-style-css'  href='http://www.journaldev.com/wp-content/plugins/forget-about-shortcode-buttons/assets/css/font-awesome.min.css?ver=1.1.0' type='text/css' media='all' />
+	<!--[if lt IE 9]>
+	<script src="http://www.journaldev.com/wp-content/themes/pinboard/scripts/html5.js" type="text/javascript"></script>
+	<![endif]-->
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/themes/pinboard/scripts/ios-orientationchange-fix.js'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/themes/pinboard/scripts/jquery.flexslider-min.js'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/themes/pinboard/scripts/jquery.fitvids.js'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/themes/pinboard/scripts/jquery.colorbox-min.js'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.journaldev.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.journaldev.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Dependency Injection Design Pattern in Java Example Tutorial' href='http://www.journaldev.com/2394/dependency-injection-design-pattern-in-java-example-tutorial' />
+<link rel='next' title='Spring Dependency Injection Example with Annotations and XML Configuration' href='http://www.journaldev.com/2410/spring-dependency-injection-example-with-annotations-and-xml-configuration' />
+<meta name="generator" content="WordPress 4.2.2" />
+<link rel='shortlink' href='http://www.journaldev.com/?p=2403' />
+    <script language="JavaScript">
+    <!--
+      jQuery(function(){
+          
+          jQuery('.wpdm-popup').click(function(){
+              tb_show(jQuery(this).html(),this.href+'&modal=1&width=600&height=400');
+              return false;
+          });
+          
+          jQuery('.haspass').click(function(){
+              var url = jQuery(this).attr('href');
+              var id = jQuery(this).attr('rel');
+              var password = jQuery('#pass_'+id).val();
+              jQuery.post('http://www.journaldev.com/',{download:id,password:password},function(res){
+                  
+                  if(res=='error') {
+                    
+                      jQuery('#wpdm_file_'+id+' .perror').html('Wrong Password');
+                      setTimeout("jQuery('#wpdm_file_"+id+" .perror').html('');",3000);
+                      return false;
+                  } else {
+                      location.href = 'http://www.journaldev.com/?wpdmact=process&did='+res;
+                  }
+                  //if(res.url!='undefined') location.href=res.url;
+                                           
+              });
+               
+              return false;
+          });
+      })
+    //-->
+    </script>
+    <style type="text/css">.a-tabs .wpautbox-socials-custom a .wpautbox-icon{ color: #fff;}.a-tabs .wpautbox-socials-custom a:hover .wpautbox-icon{ color: #fff;}.a-tabs .wpautbox-socials-custom a .wpautbox-icon{ background: #333;}.a-tabs .wpautbox-socials-custom a:hover .wpautbox-icon{ background: #222;}                                    </style>
+<meta property="article:author" content="http://www.facebook.com/JournalDev" />
+<script>
+/* <![CDATA[ */
+	jQuery(window).load(function() {
+			});
+	jQuery(document).ready(function($) {
+		$('#access .menu > li > a').each(function() {
+			var title = $(this).attr('title');
+			if(typeof title !== 'undefined' && title !== false) {
+				$(this).append('<br /> <span>'+title+'</span>');
+				$(this).removeAttr('title');
+			}
+		});
+		function pinboard_move_elements(container) {
+			if( container.hasClass('onecol') ) {
+				var thumb = $('.entry-thumbnail', container);
+				if('undefined' !== typeof thumb)
+					$('.entry-container', container).before(thumb);
+				var video = $('.entry-attachment', container);
+				if('undefined' !== typeof video)
+					$('.entry-container', container).before(video);
+				var gallery = $('.post-gallery', container);
+				if('undefined' !== typeof gallery)
+					$('.entry-container', container).before(gallery);
+				var meta = $('.entry-meta', container);
+				if('undefined' !== typeof meta)
+					$('.entry-container', container).after(meta);
+			}
+		}
+		function pinboard_restore_elements(container) {
+			if( container.hasClass('onecol') ) {
+				var thumb = $('.entry-thumbnail', container);
+				if('undefined' !== typeof thumb)
+					$('.entry-header', container).after(thumb);
+				var video = $('.entry-attachment', container);
+				if('undefined' !== typeof video)
+					$('.entry-header', container).after(video);
+				var gallery = $('.post-gallery', container);
+				if('undefined' !== typeof gallery)
+					$('.entry-header', container).after(gallery);
+				var meta = $('.entry-meta', container);
+				if('undefined' !== typeof meta)
+					$('.entry-header', container).append(meta);
+				else
+					$('.entry-header', container).html(meta.html());
+			}
+		}
+		if( ($(window).width() > 960) || ($(document).width() > 960) ) {
+			// Viewport is greater than tablet: portrait
+		} else {
+			$('#content .hentry').each(function() {
+				pinboard_move_elements($(this));
+			});
+		}
+		$(window).resize(function() {
+			if( ($(window).width() > 960) || ($(document).width() > 960) ) {
+									$('.page-template-template-full-width-php #content .hentry, .page-template-template-blog-full-width-php #content .hentry, .page-template-template-blog-four-col-php #content .hentry').each(function() {
+						pinboard_restore_elements($(this));
+					});
+							} else {
+				$('#content .hentry').each(function() {
+					pinboard_move_elements($(this));
+				});
+			}
+			if( ($(window).width() > 760) || ($(document).width() > 760) ) {
+				var maxh = 0;
+				$('#access .menu > li > a').each(function() {
+					if(parseInt($(this).css('height'))>maxh) {
+						maxh = parseInt($(this).css('height'));
+					}
+				});
+				$('#access .menu > li > a').css('height', maxh);
+			} else {
+				$('#access .menu > li > a').css('height', 'auto');
+			}
+		});
+		if( ($(window).width() > 760) || ($(document).width() > 760) ) {
+			var maxh = 0;
+			$('#access .menu > li > a').each(function() {
+				var title = $(this).attr('title');
+				if(typeof title !== 'undefined' && title !== false) {
+					$(this).append('<br /> <span>'+title+'</span>');
+					$(this).removeAttr('title');
+				}
+				if(parseInt($(this).css('height'))>maxh) {
+					maxh = parseInt($(this).css('height'));
+				}
+			});
+			$('#access .menu > li > a').css('height', maxh);
+							$('#access li').mouseenter(function() {
+					$(this).children('ul').css('display', 'none').stop(true, true).fadeIn(250).css('display', 'block').children('ul').css('display', 'none');
+				});
+				$('#access li').mouseleave(function() {
+					$(this).children('ul').stop(true, true).fadeOut(250).css('display', 'block');
+				});
+					} else {
+			$('#access li').each(function() {
+				if($(this).children('ul').length)
+					$(this).append('<span class="drop-down-toggle"><span class="drop-down-arrow"></span></span>');
+			});
+			$('.drop-down-toggle').click(function() {
+				$(this).parent().children('ul').slideToggle(250);
+			});
+		}
+				$('.entry-attachment audio, .entry-attachment video').mediaelementplayer({
+			videoWidth: '100%',
+			videoHeight: '100%',
+			audioWidth: '100%',
+			alwaysShowControls: true,
+			features: ['playpause','progress','tracks','volume'],
+			videoVolume: 'horizontal'
+		});
+		$(".entry-attachment, .entry-content").fitVids({ customSelector: "iframe[src*='wordpress.tv'], iframe[src*='www.dailymotion.com'], iframe[src*='blip.tv'], iframe[src*='www.viddler.com']"});
+	});
+	jQuery(window).load(function() {
+					jQuery('.entry-content a[href$=".jpg"],.entry-content a[href$=".jpeg"],.entry-content a[href$=".png"],.entry-content a[href$=".gif"],a.colorbox').colorbox({
+				maxWidth: '100%',
+				maxHeight: '100%',
+			});
+			});
+/* ]]> */
+</script>
+<style type="text/css">
+			#header input#s {
+			width:168px;
+			box-shadow:inset 1px 1px 5px 1px rgba(0, 0, 0, .1);
+			text-indent: 0;
+		}
+					@media screen and (max-width: 760px) {
+			#sidebar {
+				display: none;
+			}
+		}
+				@media screen and (max-width: 760px) {
+			#footer-area {
+				display: none;
+			}
+		}
+																		body {
+			font-size:14.00px;
+			line-height:1.62em;
+		}
+																a {
+			color:#1A0DAB;
+		}
+				a:hover {
+			color:#dd3333;
+		}
+							.widget-title {
+			color:#000000;
+		}
+				.widget-area a {
+			color:#21759b;
+		}
+						#sidebar {
+color: #000;
+}
+
+._fancybar{margin-top:40px !important}</style>
+<style type="text/css">
+	#site-title .home,
+	#site-description {
+		position:absolute !important;
+		clip:rect(1px, 1px, 1px, 1px);
+	}
+</style>
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-image: url('http://www.journaldev.com/wp-content/uploads/2013/08/rsz_bg.jpg'); background-repeat: repeat; background-position: top left; background-attachment: scroll; }
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css">.mc4wp-form input[name="_mc4wp_required_but_not_really"] { display: none !important; }</style><style type="text/css">
+/* Custom Styles for Box 4065 */
+.stb-4065 {
+border-width: 0px !important;
+@media ( max-width: 700px ) { #stb-4065 { display: none !important; } }
+}
+
+</style>
+
+<!-- OLD GA CODE
+<script type="text/javascript">
+window.google_analytics_uacct = "UA-12171637-4";
+
+  var _gaq = _gaq || [];
+  var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-12171637-4']);
+  _gaq.push(['_trackPageview']);
+  _gaq.push(['_setDomainName', 'www.journaldev.com']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-12171637-4', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body class="single single-post postid-2403 single-format-standard custom-background dwpb-push-page dwpb_responsive_extra_small">
+<!--
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;js.async=true;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=228420730501615&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script> -->
+<!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+	<div id="wrapper">
+		<header id="header">
+			<div id="site-title">
+				
+					<a href="http://www.journaldev.com" rel="home">
+						<img src="http://www.journaldev.com/wp-content/uploads/2014/05/Final-JD-Logo.png" alt="JournalDev" width="333" height="96" />
+					</a>
+				
+				<a class="home" href="http://www.journaldev.com" rel="home">JournalDev</a>
+			</div>
+							<div id="sidebar-header" class="widget-area" role="complementary">
+		<aside id="text-9" class="widget widget_text">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1294274" class="bsarocks bsap_f40eb584b4ff82da0d1e9b4430902710"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</aside><!-- .widget -->	</div><!-- #sidebar-header -->
+			<div class="clear"></div>
+			<nav id="access">
+				<a class="nav-show" href="#access">Show Navigation</a>
+				<a class="nav-hide" href="#nogo">Hide Navigation</a>
+				<div class="menu-new-headermenu-container"><ul id="menu-new-headermenu" class="menu"><li id="menu-item-7610" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7610"><a href="http://www.journaldev.com/tutorials">Tutorials</a></li>
+<li id="menu-item-7611" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7611"><a href="#">#Index Posts</a>
+<ul class="sub-menu">
+	<li id="menu-item-7612" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7612"><a href="http://www.journaldev.com/7153/java-101-tutorials-learn-java">Java 101</a></li>
+	<li id="menu-item-7613" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7613"><a href="http://www.journaldev.com/1827/java-design-patterns-example-tutorial">Java Design Patterns</a></li>
+	<li id="menu-item-7614" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7614"><a href="http://www.journaldev.com/2114/java-servlet-jsp-tutorial-with-example-programs">Servlet JSP Tutorial</a></li>
+	<li id="menu-item-7615" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7615"><a href="http://www.journaldev.com/2310/struts2-tutorial-with-example-projects">Struts 2 Tutorial</a></li>
+	<li id="menu-item-7616" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7616"><a href="http://www.journaldev.com/2888/spring-framework-tutorial-with-example-projects">Spring Tutorial</a></li>
+	<li id="menu-item-7638" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7638"><a href="http://www.journaldev.com/7635/jsf-tutorial-with-example-projects">JSF Tutorial</a></li>
+	<li id="menu-item-7620" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7620"><a href="http://www.journaldev.com/5516/primefaces-tutorial-with-example-projects">Primefaces Tutorial</a></li>
+	<li id="menu-item-7619" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7619"><a href="http://www.journaldev.com/2681/jdbc-tutorial-with-example-projects-datasource-jndi-and-spring-integration">JDBC Tutorial</a></li>
+	<li id="menu-item-7617" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7617"><a href="http://www.journaldev.com/3793/hibernate-tutorial-with-example-projects">Hibernate Tutorial</a></li>
+	<li id="menu-item-7618" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7618"><a href="http://www.journaldev.com/6672/mongodb-tutorial-installation-example-projects-integration-with-servlet-spring-jsf">MongoDB Tutorial</a></li>
+</ul>
+</li>
+<li id="menu-item-7621" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7621"><a href="#">#Interview Questions</a>
+<ul class="sub-menu">
+	<li id="menu-item-7622" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7622"><a href="http://www.journaldev.com/java-interview-questions">Java Interview Questions</a></li>
+	<li id="menu-item-7623" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7623"><a href="http://www.journaldev.com/2529/jdbc-interview-questions-and-answers">JDBC Interview Questions</a></li>
+	<li id="menu-item-7624" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7624"><a href="http://www.journaldev.com/2015/servlet-interview-questions-and-answers">Servlet Interview Questions</a></li>
+	<li id="menu-item-7625" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7625"><a href="http://www.journaldev.com/2110/jsp-interview-questions-and-answers">JSP Interview Questions</a></li>
+	<li id="menu-item-7626" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7626"><a href="http://www.journaldev.com/2354/struts2-interview-questions-and-answers">Struts2 Interview Questions</a></li>
+	<li id="menu-item-7627" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7627"><a href="http://www.journaldev.com/2696/spring-interview-questions-and-answers">Spring Interview Questions</a></li>
+	<li id="menu-item-7628" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7628"><a href="http://www.journaldev.com/3633/hibernate-interview-questions-and-answers">Hibernate Interview Questions</a></li>
+	<li id="menu-item-7629" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7629"><a href="http://www.journaldev.com/7261/jsf-interview-questions-and-answers">JSF Interview Questions</a></li>
+</ul>
+</li>
+<li id="menu-item-7630" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7630"><a href="http://bit.ly/java-ebooks1">Free Java eBooks</a></li>
+<li id="menu-item-7734" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7734"><a href="http://www.journaldev.com/books">Book Deals (USA)</a></li>
+<li id="menu-item-7759" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7759"><a href="http://www.journaldev.com/resources">Resources</a></li>
+</ul></div>				<div class="clear"></div>
+			</nav><!-- #access -->
+		</header><!-- #header -->
+	<div id="container">
+		<section id="content" class="column twothirdcol">
+							<article class="post-2403 post type-post status-publish format-standard hentry category-java tag-dependency-injection tag-google-guice column onecol" id="post-2403">
+					<div class="entry">
+						<header class="entry-header">
+							<h1 class="entry-title">Google Guice Dependency Injection Example Tutorial</h1>
+									<aside class="entry-meta">
+							<span class="entry-author-link"><a href="http://www.journaldev.com/author/pankaj" title="Posts by Pankaj" rel="author">Pankaj</a></span>
+									<span class="entry-date">December 15, 2013</span>
+												<span class="entry-category"><a href="http://www.journaldev.com/dev/java" rel="category tag">Java</a></span>
+																		<div class="clear"></div>
+		</aside><!-- .entry-meta -->
+							</header><!-- .entry-header -->
+						<div class="entry-content">
+														
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:10px 0 10px 0;text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- jd_top_728_90 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5143693538742787"
+     data-ad-slot="6417447325"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<p><strong>Google Guice</strong> is the framework to automate the dependency injection in applications. If you have come across directly here, I would recommend you to check out <a href="http://www.journaldev.com/2394/dependency-injection-design-pattern-in-java-example-tutorial" title="Dependency Injection Design Pattern in Java Example Tutorial">Dependency Injection Example</a> where we learned the problems with traditional approach of Object creation and implementation benefits of dependency injection.</p>
+<p>In last tutorial, we learned how can we implement dependency injection in applications manually. But when number of classes grow in an application, it&#8217;s better to look for some framework to automate this task. </p>
+<p>Google Guice is one of the leading frameworks whose main work is to provide automatic implementation of dependency injection. We will work on the same example from last post and learn how can we use Google Guice to automate the implementation process for dependency injection.</p>
+<p>Google Guice dependencies are available on maven central, so for maven projects you can add below dependency for it.</p>
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:10px 0 10px 0;text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- jd_after_post_728x90 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5143693538742787"
+     data-ad-slot="1682631325"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<pre class="brush: xml; title: ; notranslate" title="">
+		&lt;dependency&gt;
+			&lt;groupId&gt;com.google.inject&lt;/groupId&gt;
+			&lt;artifactId&gt;guice&lt;/artifactId&gt;
+			&lt;version&gt;3.0&lt;/version&gt;
+		&lt;/dependency&gt;
+</pre>
+<p>If you have a simple java application, then you can download the jar file from <a href="https://code.google.com/p/google-guice/" target="_blank">Google Guice Home Page</a> on Google Code. Note that in this case you will also need to have it&#8217;s transitive dependencies in the classpath or else you will get runtime exception.</p>
+<p>For my example, I have a maven project whose project structure looks like below image.</p>
+<p><a href="http://www.journaldev.com/wp-content/uploads/2013/12/Google-Guice-Example-Tutorial.png"><img src="http://www.journaldev.com/wp-content/uploads/2013/12/Google-Guice-Example-Tutorial.png" alt="Google-Guice-Example-Tutorial" width="307" height="392" class="aligncenter size-full wp-image-2404" /></a></p>
+<p>Let&#8217;s see each of the components one by one.</p>
+<h3>Service Classes</h3>
+<pre class="brush: java; title: MessageService.java; notranslate" title="MessageService.java">
+package com.journaldev.di.services;
+
+public interface MessageService {
+
+	boolean sendMessage(String msg, String receipient);
+}
+</pre>
+<p><code>MessageService</code> interface provides the base contract for the services.</p>
+<pre class="brush: java; title: EmailService.java; notranslate" title="EmailService.java">
+package com.journaldev.di.services;
+
+import javax.inject.Singleton;
+
+//import com.google.inject.Singleton;
+
+@Singleton
+public class EmailService implements MessageService {
+
+	public boolean sendMessage(String msg, String receipient) {
+		//some fancy code to send email
+		System.out.println(&quot;Email Message sent to &quot;+receipient+&quot; with message=&quot;+msg);
+		return true;
+	}
+
+}
+</pre>
+<p><code>EmailService</code> is one of the implementation of <code>MessageService</code>. Notice that class is annotated with @Singleton annotation. Since service objects will be created through injector classes, this annotation is provided to let them know that the service classes should be singleton objects.</p>
+<p>Google Guice 3.0 added the support for JSR-330 and we can use annotations from <code>com.google.inject</code> or <code>javax.inject</code> package.</p>
+<p>Let&#8217;s say we have another service implementation to send facebook messages.</p>
+<pre class="brush: java; title: FacebookService.java; notranslate" title="FacebookService.java">
+package com.journaldev.di.services;
+
+import javax.inject.Singleton;
+
+//import com.google.inject.Singleton;
+
+@Singleton
+public class FacebookService implements MessageService {
+
+	public boolean sendMessage(String msg, String receipient) {
+		//some complex code to send Facebook message
+		System.out.println(&quot;Message sent to Facebook user &quot;+receipient+&quot; with message=&quot;+msg);
+		return true;
+	}
+
+}
+</pre>
+<h3>Consumer Class</h3>
+<p>Since we are implementing dependency injection in our application, we won&#8217;t initialize the service class in application. Google Guice support both <em>setter-based</em> and <em>constructor-based</em> dependency injection. Our application class that consumes the service looks like below.</p>
+<pre class="brush: java; title: MyApplication.java; notranslate" title="MyApplication.java">
+package com.journaldev.di.consumer;
+
+import javax.inject.Inject;
+
+//import com.google.inject.Inject;
+import com.journaldev.di.services.MessageService;
+
+public class MyApplication {
+
+	private MessageService service;
+	
+//	constructor based injector
+//	@Inject
+//	public MyApplication(MessageService svc){
+//		this.service=svc;
+//	}
+	
+	//setter method injector
+	@Inject
+	public void setService(MessageService svc){
+		this.service=svc;
+	}
+	
+	public boolean sendMessage(String msg, String rec){
+		//some business logic here
+		return service.sendMessage(msg, rec);
+	}
+}
+</pre>
+<p>Notice that I have commented the code for constructor based injection, this comes handy when your application provides some other features too that doesn&#8217;t need service class object.</p>
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:10px 0 10px 0;text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- jd_728_90 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5143693538742787"
+     data-ad-slot="3143777721"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<p>Also notice the @Injector annotation, this will be used by Google Guice to inject the service implementation class. If you are not familiar with annotations, check out <a href="http://www.journaldev.com/721/java-annotations-tutorial-with-custom-annotation-example-and-parsing-using-reflection" title="Java Annotations Tutorial with Custom Annotation Example and Parsing using Reflection" target="_blank"><strong>java annotations tutorial</strong></a>.</p>
+<h3>Binding Service implementation</h3>
+<p>Obviously google guice will not know which service to use, we have to configure it by extending <code>AbstractModule</code> <a href="http://www.journaldev.com/1582/abstract-class-in-java-with-example" title="Abstract Class in Java with Example">abstract class</a> and provide implementation for <em>configure()</em> method.</p>
+<pre class="brush: java; title: AppInjector.java; notranslate" title="AppInjector.java">
+package com.journaldev.di.injector;
+
+import com.google.inject.AbstractModule;
+import com.journaldev.di.services.EmailService;
+import com.journaldev.di.services.FacebookService;
+import com.journaldev.di.services.MessageService;
+
+public class AppInjector extends AbstractModule {
+
+	@Override
+	protected void configure() {
+		//bind the service to implementation class
+		//bind(MessageService.class).to(EmailService.class);
+		
+		//bind MessageService to Facebook Message implementation
+		bind(MessageService.class).to(FacebookService.class);
+		
+	}
+
+}
+</pre>
+<p>As you can see that we can bind any of the implementation to service class. For example, if we want to change to EmailService we would just need to change the bindings.</p>
+<h3>Client Application</h3>
+<p>Our setup is ready, let&#8217;s see how to use it with a simple java class.</p>
+<pre class="brush: java; title: ClientApplication.java; notranslate" title="ClientApplication.java">
+package com.journaldev.di.test;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import com.journaldev.di.consumer.MyApplication;
+import com.journaldev.di.injector.AppInjector;
+
+public class ClientApplication {
+
+	public static void main(String[] args) {
+		Injector injector = Guice.createInjector(new AppInjector());		
+		
+		MyApplication app = injector.getInstance(MyApplication.class);
+		
+		app.sendMessage(&quot;Hi Pankaj&quot;, &quot;pankaj@abc.com&quot;);
+	}
+
+}
+</pre>
+<p>The implementation is very easy to understand. We need to create <code>Injector</code> object using Guice class createInjector() method where we pass our injector class implementation object. Then we use injector to initialize our consumer class. If we run above class, it will produce following output.</p>
+<pre class="brush: bash; title: ; notranslate" title="">
+Message sent to Facebook user pankaj@abc.com with message=Hi Pankaj
+</pre>
+<p>If we change the bindings to <code>EmailService</code> in <code>AppInjector</code> class then it will produce following output.</p>
+<pre class="brush: bash; title: ; notranslate" title="">
+Email Message sent to pankaj@abc.com with message=Hi Pankaj
+</pre>
+<h3>JUnit Test Cases</h3>
+<p>Since we want to test MyApplication class, we are not required to create actual service implementation. We can have a simple Mock service implementation class like below.</p>
+<pre class="brush: java; title: MockMessageService.java; notranslate" title="MockMessageService.java">
+package com.journaldev.di.services;
+
+public class MockMessageService implements MessageService{
+
+	public boolean sendMessage(String msg, String receipient) {
+		return true;
+	}
+
+}
+</pre>
+<p>My JUnit 4 test class looks like below.</p>
+<pre class="brush: java; title: MyApplicationTest.java; notranslate" title="MyApplicationTest.java">
+package com.journaldev.di.test;
+
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.journaldev.di.consumer.MyApplication;
+import com.journaldev.di.services.MessageService;
+import com.journaldev.di.services.MockMessageService;
+
+public class MyApplicationTest {
+
+	private Injector injector;
+	
+	@Before
+	public void setUp() throws Exception {
+		injector = Guice.createInjector(new AbstractModule() {
+			
+			@Override
+			protected void configure() {
+				bind(MessageService.class).to(MockMessageService.class);
+			}
+		});
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		injector = null;
+	}
+
+	@Test
+	public void test() {
+		MyApplication appTest = injector.getInstance(MyApplication.class);
+		Assert.assertEquals(true, appTest.sendMessage(&quot;Hi Pankaj&quot;, &quot;pankaj@abc.com&quot;));;
+	}
+
+}
+</pre>
+<p>Notice that I am binding <code>MockMessageService</code> class to <code>MessageService</code> by having an <a href="http://www.journaldev.com/996/java-nested-classes-java-inner-class-static-nested-class-local-inner-class-and-anonymous-inner-class" title="Java Nested Classes – java inner class, static nested class, local inner class and anonymous inner class" target="_blank">anonymous class</a> implementation of <code>AbstractModule</code>. This is done in <em>setUp()</em> method that runs before the test methods.</p>
+<div id='wpdm_file_28' class='wpdm_file wpdm-only-button'><div class='cont'><div class='btn_outer'><div class='btn_outer_c' style='background-image: url("http://www.journaldev.com/wp-content/plugins/download-manager/icon/system-log-out.png");'><a class='btn_left  has-counter' rel='28' title='Google Guice Project' href='http://www.journaldev.com/?wpdmact=process&did=MjguaG90bGluaw=='  >Download Google Guice Project</a><span class='btn_right counter'>746 downloads</span></div></div><div class='clear'></div></div></div>
+<p>Use of Google Guice for implementing dependency injection in application is very easy and it does it beautifully. It&#8217;s used in Google APIs so we can assume that it&#8217;s highly tested and reliable code. Download the project from above and play around with it to learn more.</p>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><div id="crp_related" class="crp_related"><h3>Related Posts:</h3><ul><li><a href="http://www.journaldev.com/2394/dependency-injection-design-pattern-in-java-example-tutorial"    ><img src="http://www.journaldev.com/wp-content/uploads/2014/05/Final-JD-Logo.png" alt="Dependency Injection Design Pattern in Java Example Tutorial" title="Dependency Injection Design Pattern in Java Example Tutorial" width="150" height="150" class="crp_thumb" /></a><a href="http://www.journaldev.com/2394/dependency-injection-design-pattern-in-java-example-tutorial"     class="crp_title">Dependency Injection Design Pattern in Java Example Tutorial</a></li><li><a href="http://www.journaldev.com/2410/spring-dependency-injection-example-with-annotations-and-xml-configuration"    ><img src="http://www.journaldev.com/wp-content/uploads/2013/12/Spring-Dependency-Injection-410x450.png" alt="Spring Dependency Injection Example with Annotations and XML Configuration" title="Spring Dependency Injection Example with Annotations and XML Configuration" width="150" height="150" class="crp_thumb" /></a><a href="http://www.journaldev.com/2410/spring-dependency-injection-example-with-annotations-and-xml-configuration"     class="crp_title">Spring Dependency Injection Example with Annotations and XML</a></li><li><a href="http://www.journaldev.com/2888/spring-framework-tutorial-with-example-projects"    ><img src="http://www.journaldev.com/wp-content/uploads/2014/05/spring-tutorial.png" alt="Spring Framework Tutorial with Example Projects" title="Spring Framework Tutorial with Example Projects" width="150" height="150" class="crp_thumb" /></a><a href="http://www.journaldev.com/2888/spring-framework-tutorial-with-example-projects"     class="crp_title">Spring Framework Tutorial with Example Projects</a></li><li><a href="http://www.journaldev.com/2461/spring-ioc-container-and-spring-bean-example-tutorial"    ><img src="http://www.journaldev.com/wp-content/uploads/2013/12/Spring-Container-Beans-Example-Project-260x450.png" alt="Spring IoC Container and Spring Bean Example Tutorial" title="Spring IoC Container and Spring Bean Example Tutorial" width="150" height="150" class="crp_thumb" /></a><a href="http://www.journaldev.com/2461/spring-ioc-container-and-spring-bean-example-tutorial"     class="crp_title">Spring IoC Container and Spring Bean Example Tutorial</a></li></ul><div style="clear:both"></div></div><div id="wpautbox-556ba210ec9c2" class="wpautbox-below"><input type="hidden" class="wpautbox-input-authorid" value="1" /><ul class="a-tab-nav"><li class="a-tab-active"><a href="#wpautbox_about"><i class="el-icon-user wpautbox-icon"></i> About the Author</a></li><li class="wpautbox-nav-custom-tab-0"><a href="#wpautbox_custom-tab-0"><i class="el el-book wpautbox-icon"></i> Books</a></li><li class="wpautbox-nav-custom-tab-1"><a href="#wpautbox_custom-tab-1"><i class="el el-video wpautbox-icon"></i> Video Tutorials</a></li></ul><div class="a-tab-container"><div class="a-tab-content" id="wpautbox_about"><div class="wpautbox-avatar wpautbox-avatar-circle"><a href="http://www.journaldev.com/author/pankaj"><img src="http://www.journaldev.com/wp-content/uploads/2015/05/My-Photo-150x150.jpg" /></a></div><div class="wpautbox-author-meta"><h4 class="wpautbox-name"><span>About</span> <a href="http://www.journaldev.com/author/pankaj">Pankaj</a></h4><p>If you have come this far, it means that you liked what you are reading. Why not reach little more and connect with me directly on <a href="https://plus.google.com/118104420597648001532/posts?rel=author"><strong>Google Plus</strong></a>, <a href="https://www.facebook.com/journaldev"><strong>Facebook</strong></a> or <a href="https://twitter.com/JournalDev"><strong>Twitter</strong></a>. I would love to hear your thoughts and opinions on my articles directly.</p>
+<p>Recently I started creating video tutorials too, so do check out my videos on <a href="https://www.youtube.com/user/JournalDev"><strong>Youtube</strong></a>.</p>
+<a href="http://www.journaldev.com" target="_blank"></a></div></div><div class="a-tab-content" id="wpautbox_custom-tab-0"><p>I read a lot of books, below is the one I am currently reading.</p>
+<ul>
+<li><a href="http://www.journaldev.com/100-dollar-startup" target="_blank">The $100 Startup</a></li>
+</ul>
+<p>Below are some of the recommended books in different technologies.</p>
+<ul>
+<li><a href="http://www.journaldev.com/6162/5-best-core-java-books-for-beginners" target="_blank">Best Core Java Books for Beginners</a></li>
+<li><a href="http://www.journaldev.com/7233/advanced-java-books-for-experienced-programmers" target="_blank">Best Advanced Java Books for Experienced Programmers</a></li>
+<li><a href="http://www.journaldev.com/7223/spring-framework-books-spring-mvc" target="_blank">Best Spring Framework Books</a></li>
+<li><a href="http://www.journaldev.com/6622/5-oracle-java-certification-exam-books-ocaocp-that-you-should-have" target="_blank">Oracle Certification OCA/OCP Books</a></li>
+<li><a href="http://www.journaldev.com/7227/best-java-8-books-for-upgrading-your-java-skills" target="_blank">Best Java 8 Books</a></li>
+<li><a href="http://www.journaldev.com/7229/5-best-design-patterns-books-to-look-for" target="_blank">Best Design Pattern Books</a></li>
+</ul>
+</div><div class="a-tab-content" id="wpautbox_custom-tab-1"><p>Some of the <a href="http://www.journaldev.com/video-tuts-offer" target="_blank">video tutorials on Udemy</a> I would recommend are;</p>
+<ul>
+<li><a href="http://www.journaldev.com/data-structure-video-tutorial" target="_blank">Data Structures and Algorithms in Java</a></li>
+<li><a href="http://www.journaldev.com/angularjs-video-tutorial" target="_blank">Learn and Understand AngularJS</a></li>
+<li><a href="http://www.journaldev.com/hadoop-video-tutorial" target="_blank">Become a Certified Hadoop Developer</a></li>
+<li><a href="http://www.journaldev.com/advanced-java-video-tutorial" target="_blank">Advanced Java Video Tutorial</a></li>
+<li><a href="http://www.journaldev.com/web-developer-video-tutorial" target="_blank">The Complete Web Developer Course</a></li>
+</ul>
+</div><div class="wpautbox-socials wpautbox-socials-circle wpautbox-socials-colored"><a href="http://www.facebook.com/JournalDev" target="_blank" class="wpautbox-facebook" data-toggle="tooltip" data-original-title="Facebook" ><span class="wpautbox-icon wpautbox-icon-facebook"></span></a> <a href="http://twitter.com/journaldev" target="_blank" class="wpautbox-twitter" data-toggle="tooltip" data-original-title="Twitter" ><span class="wpautbox-icon wpautbox-icon-twitter"></span></a> <a rel="author" href="https://plus.google.com/118104420597648001532?rel=author" target="_blank" class="wpautbox-google" data-toggle="tooltip" data-original-title="Google+" ><span class="wpautbox-icon wpautbox-icon-googleplus"></span></a> <a href="http://www.youtube.com/user/journaldev" target="_blank" class="wpautbox-youtube" data-toggle="tooltip" data-original-title="Youtube" ><span class="wpautbox-icon wpautbox-icon-youtube"></span></a> </div></div></div>							<div class="clear"></div>
+						</div><!-- .entry-content -->
+						<footer class="entry-utility">
+														<div class="entry-tags"><a href="http://www.journaldev.com/tag/dependency-injection" rel="tag">dependency injection</a> <a href="http://www.journaldev.com/tag/google-guice" rel="tag">Google Guice</a></div>																				</footer><!-- .entry-utility -->
+					</div><!-- .entry -->
+						<aside id="comments">
+				<h3 id="comments-title">5 Responses to &quot;Google Guice Dependency Injection Example Tutorial&quot;</h3>
+
+		<div id="comments-nav-above" class="navigation">
+			<div class="nav-prev"></div>
+			<div class="nav-next"></div>
+			<div class="clear"></div>
+		</div>
+		
+		<ol class="commentlist">
+					<li class="comment even thread-even depth-1 parent" id="comment-32420">
+				<div id="div-comment-32420" class="comment-body">
+				<div class="comment-author vcard">
+			<img alt='' src='http://2.gravatar.com/avatar/210ebd3edb41c0c628301f0d07993432?s=64&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/210ebd3edb41c0c628301f0d07993432?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' />			<cite class="fn">Farhad</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial#comment-32420">
+			May 12, 2015 at 1:02 am</a>		</div>
+
+		<p>So as per this tutorial, we can bind only one implementation at a time? What if I need to use FacebookMessageService AND EmailMessageService? How to handle that?</p>
+
+		<div class="reply"><a class='comment-reply-link' href='/2403/google-guice-dependency-injection-example-tutorial?replytocom=32420#respond' onclick='return addComment.moveForm( "div-comment-32420", "32420", "respond", "2403" )' aria-label='Reply to Farhad'>Reply</a></div>
+				</div>
+		<ol class="children">
+		<li class="comment odd alt depth-2" id="comment-32525">
+				<div id="div-comment-32525" class="comment-body">
+				<div class="comment-author vcard">
+			<img alt='' src='http://2.gravatar.com/avatar/5b195bbc6b8d59eac821521a80d12543?s=64&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/5b195bbc6b8d59eac821521a80d12543?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' />			<cite class="fn">shashi</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial#comment-32525">
+			May 26, 2015 at 1:10 pm</a>		</div>
+
+		<p>Guice provides binding annotations for this purpose. Reference: <a href="https://github.com/google/guice/wiki/BindingAnnotations" rel="nofollow">https://github.com/google/guice/wiki/BindingAnnotations</a></p>
+
+		<div class="reply"><a class='comment-reply-link' href='/2403/google-guice-dependency-injection-example-tutorial?replytocom=32525#respond' onclick='return addComment.moveForm( "div-comment-32525", "32525", "respond", "2403" )' aria-label='Reply to shashi'>Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li class="comment even thread-odd thread-alt depth-1" id="comment-31807">
+				<div id="div-comment-31807" class="comment-body">
+				<div class="comment-author vcard">
+			<img alt='' src='http://1.gravatar.com/avatar/789363b611a9ec308b8ccdbbdd5b1f2c?s=64&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/789363b611a9ec308b8ccdbbdd5b1f2c?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' />			<cite class="fn">Alex Wang</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial#comment-31807">
+			February 23, 2015 at 7:44 pm</a>		</div>
+
+		<p>good article about Guice</p>
+
+		<div class="reply"><a class='comment-reply-link' href='/2403/google-guice-dependency-injection-example-tutorial?replytocom=31807#respond' onclick='return addComment.moveForm( "div-comment-31807", "31807", "respond", "2403" )' aria-label='Reply to Alex Wang'>Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+		<li class="pingback odd alt thread-even depth-1" id="comment-29688">
+				<div id="div-comment-29688" class="comment-body">
+				<div class="comment-author vcard">
+						<cite class="fn"><a href='http://www.journaldev.com/2696/spring-interview-questions-and-answers' rel='external nofollow' class='url'>Spring Interview Questions and Answers</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial#comment-29688">
+			August 4, 2014 at 11:07 am</a>		</div>
+
+		<p>[&#8230;] more at Dependency Injection Tutorial. We can also use Google Guice for Dependency Injection to automate the process of dependency injection. But in most of the cases we are looking for more [&#8230;]</p>
+
+		<div class="reply"><a class='comment-reply-link' href='/2403/google-guice-dependency-injection-example-tutorial?replytocom=29688#respond' onclick='return addComment.moveForm( "div-comment-29688", "29688", "respond", "2403" )' aria-label='Reply to Spring Interview Questions and Answers'>Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+		<li class="pingback even thread-odd thread-alt depth-1" id="comment-27203">
+				<div id="div-comment-27203" class="comment-body">
+				<div class="comment-author vcard">
+						<cite class="fn"><a href='http://www.journaldev.com/2410/spring-dependency-injection-example-with-annotations-and-xml-configuration' rel='external nofollow' class='url'>Spring Dependency Injection Example with Annotations and XML Configuration</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.journaldev.com/2403/google-guice-dependency-injection-example-tutorial#comment-27203">
+			December 19, 2013 at 8:52 pm</a>		</div>
+
+		<p>[&#8230;] Programming&#8220;. I have written earlier about Dependency Injection Pattern and how we can use Google Guice framework to automate this process in our [&#8230;]</p>
+
+		<div class="reply"><a class='comment-reply-link' href='/2403/google-guice-dependency-injection-example-tutorial?replytocom=27203#respond' onclick='return addComment.moveForm( "div-comment-27203", "27203", "respond", "2403" )' aria-label='Reply to Spring Dependency Injection Example with Annotations and XML Configuration'>Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+		</ol>
+		
+		<div id="comments-nav-below" class="navigation">
+			<div class="nav-prev"></div>
+			<div class="nav-next"></div>
+			<div class="clear"></div>
+		</div>
+	</aside><!-- #comments -->
+
+
+						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2403/google-guice-dependency-injection-example-tutorial#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://www.journaldev.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-describedby="form-allowed-tags" aria-required="true" required="required"></textarea></p>						<p class="form-allowed-tags" id="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; </code></p>
+						<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='2403' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="295ded58b2" /></p>		<p class="antispam-group antispam-group-q" style="clear: both;">
+			<label>Current ye@r <span class="required">*</span></label>
+			<input type="hidden" name="antspm-a" class="antispam-control antispam-control-a" value="2015" />
+			<input type="text" name="antspm-q" class="antispam-control antispam-control-q" value="3.5" />
+		</p>
+		<p class="antispam-group antispam-group-e" style="display: none;">
+			<label>Leave this field empty</label>
+			<input type="text" name="antspm-e-email-url-website" class="antispam-control antispam-control-e" value="" />
+		</p>
+<!-- MailChimp for WordPress v2.3.4 - https://mc4wp.com/ --><p id="mc4wp-checkbox" class="mc4wp-checkbox-comment_form"><label><input type="checkbox" name="_mc4wp_subscribe_comment_form" value="1" checked /> Sign me up for the JournalDev newsletter!</label></p><textarea name="_mc4wp_required_but_not_really" style="display: none !important;"></textarea><!-- / MailChimp for WordPress --><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="87"/></p>					</form>
+							</div><!-- #respond -->
+							</article><!-- .post -->
+					</section><!-- #content -->
+					<div id="sidebar" class="column threecol">
+		<div id="sidebar-top" class="widget-area" role="complementary">
+		<div class="column onecol"><aside id="text-8" class="widget widget_text">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1294273" class="bsarocks bsap_f40eb584b4ff82da0d1e9b4430902710"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</aside><!-- .widget --></div><div class="column onecol"><aside id="seed_glcse_widget-2" class="widget widget_seed_glcse_widget">		<div class="glcse-widget">
+		<form id="glcse-search-form" class="glcse-search" action="http://www.journaldev.com" method="get">
+        <input type="hidden" name="cref" value="http://www.journaldev.com/?glcse=1" />
+        <input type="hidden" name="cof" value="FORID:11" />
+        <input type="hidden" name="ie" value="UTF-8" />
+        <input type="text" name="q" size="44" />
+        <input type="hidden" name="s" value="glcse" />
+    	</form>
+    	<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=glcse-search-form&lang=en"></script>
+    	</div>
+    	</aside><!-- .widget --></div><div class="column onecol"><aside id="socialbox-2" class="widget socialbox">
+<!-- SocialBox Widget -->
+<div class="socialbox-widget socialbox-style-classic" >
+	<ul>
+
+		
+			<li class="socialbox-network-facebook">
+				<a href="http://www.facebook.com/JournalDev" title="Like on Facebook" target="_blank">
+					<img src="http://www.journaldev.com/wp-content/plugins/socialbox/assets/img/icons/32/facebook.png" alt="Facebook" width="16" height="16"/>
+				</a>
+				<p>
+					<span>13,755</span> Likes				</p>
+
+									<a href="http://www.facebook.com/JournalDev" class="socialbox-button" title="Like on Facebook" target="_blank" >
+						Like					</a>
+							</li>
+
+		
+			<li class="socialbox-network-twitter">
+				<a href="http://twitter.com/journaldev" title="Follow on Twitter" target="_blank">
+					<img src="http://www.journaldev.com/wp-content/plugins/socialbox/assets/img/icons/32/twitter.png" alt="Twitter" width="16" height="16"/>
+				</a>
+				<p>
+					<span>2,663</span> Followers				</p>
+
+									<a href="http://twitter.com/journaldev" class="socialbox-button" title="Follow on Twitter" target="_blank" >
+						Follow					</a>
+							</li>
+
+		
+			<li class="socialbox-network-googleplus">
+				<a href="https://plus.google.com/118104420597648001532" title="Follow on Google+" target="_blank">
+					<img src="http://www.journaldev.com/wp-content/plugins/socialbox/assets/img/icons/32/googleplus.png" alt="Google+" width="16" height="16"/>
+				</a>
+				<p>
+					<span>5,157</span> Followers				</p>
+
+									<a href="https://plus.google.com/118104420597648001532" class="socialbox-button" title="Follow on Google+" target="_blank" >
+						Follow					</a>
+							</li>
+
+		
+			<li class="socialbox-network-youtube">
+				<a href="http://www.youtube.com/user/journaldev" title="Subscribe to Youtube Channel" target="_blank">
+					<img src="http://www.journaldev.com/wp-content/plugins/socialbox/assets/img/icons/32/youtube.png" alt="YouTube" width="16" height="16"/>
+				</a>
+				<p>
+					<span>659</span> Subscribers				</p>
+
+									<a href="http://www.youtube.com/user/journaldev" class="socialbox-button" title="Subscribe to Youtube Channel" target="_blank" >
+						Subscribe					</a>
+							</li>
+
+		
+			<li class="socialbox-network-mailchimp">
+				<a href="http://eepurl.com/01DKf" title="Subscribe to newsletter" target="_blank">
+					<img src="http://www.journaldev.com/wp-content/plugins/socialbox/assets/img/icons/32/mailchimp.png" alt="Newsletter" width="16" height="16"/>
+				</a>
+				<p>
+					<span>15,939</span> Subscribers				</p>
+
+									<a href="http://eepurl.com/01DKf" class="socialbox-button" title="Subscribe to newsletter" target="_blank" >
+						Subscribe					</a>
+							</li>
+
+		
+	</ul>
+</div>
+<!-- End SocialBox Widget -->
+</aside><!-- .widget --></div><!--WP Widget Cache 0.26 Begin -->
+<!--Cache text-4 for 10000 second(s)-->
+<div class="column onecol"><aside id="text-4" class="widget widget_text">			<div class="textwidget"><!-- <div class="fb-like-box" data-href="https://www.facebook.com/JournalDev" data-width="350" data-height="258" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div> -->
+<!-- <div class="g-person" data-width="350" data-href="//plus.google.com/u/0/118104420597648001532" data-layout="landscape" data-rel="author"></div>
+<div class="g-page" data-width="350" data-href="//plus.google.com/u/0/108915099401054415071" data-layout="landscape" data-rel="publisher"></div> -->
+<!-- <div class="g-ytsubscribe" data-channel="JournalDev" data-layout="full" data-count="default" data-width="350" data-layout="landscape"></div> --></div>
+		</aside><!-- .widget --></div><!--WP Widget Cache End -->
+<!--WP Widget Cache 0.26 Begin -->
+<!--Cache recent-posts-3 for 10000 second(s)-->
+		<div class="column onecol"><aside id="recent-posts-3" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://www.journaldev.com/8170/scala-identifiers-example-tutorial">Scala Identifiers Example Tutorial</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/8153/scala-traits-example-tutorial">Scala Traits Example Tutorial</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7991/node-js-events-module-and-eventemitter">Node JS Events Module and EventEmitter</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7971/introduction-to-gradle">Introduction to Gradle</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/8082/scala-option-and-iterators-example">Scala Option and Iterators Example</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/8079/scala-tuples-and-maps-example">Scala Tuples and Maps Example</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/8060/manually-bootstrapping-an-angular-application">Manually Bootstrapping an Angular Application</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/8068/scala-collections-example">Scala Collections Example</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7354/junit-4-jwebunit-arquillian-jsf-unit-example-tutorial">JUnit 4, JWebUnit, Arquillian &amp; JSF Unit Example Tutorial</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7969/introduction-to-spring-boot">Introduction to Spring Boot</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7967/angularjs-forms-custom-model-update-triggers">AngularJS Forms Custom Model Update Triggers</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7978/scala-exception-handling-example">Scala Exception Handling Example</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7921/angularjs-form-validation-tutorial">AngularJS Form Validation Tutorial</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7936/node-js-http-package-creating-http-server">Node.js HTTP Package &#8211; Creating HTTP Server</a>
+						</li>
+					<li>
+				<a href="http://www.journaldev.com/7929/understanding-java-string-intern-method-programmatically">Understanding Java String intern() method programmatically</a>
+						</li>
+				</ul>
+		</aside><!-- .widget --></div><!--WP Widget Cache End -->
+	</div><!-- #sidebar-top -->
+		<div class="column twocol">
+		<div id="sidebar-left" class="widget-area" role="complementary">
+			
+<!-- Quick Adsense Wordpress Plugin: http://quicksense.net/ -->
+<div class="column onecol"><aside id="adswidget2-quick-adsense" class="widget  lambda_13">
+<!-- BuySellAds Zone Code -->
+<div id="bsap_1295072" class="bsarocks bsap_f40eb584b4ff82da0d1e9b4430902710"></div>
+<!-- End BuySellAds Zone Code -->
+</aside><!-- .widget --></div>		</div><!-- #sidebar-left -->
+	</div><!-- .twocol -->
+		<div class="column twocol">
+		<div id="sidebar-right" class="widget-area" role="complementary">
+			<!--WP Widget Cache 0.26 Begin -->
+<!--Cache categories-3 for 100000 second(s)-->
+<div class="column onecol"><aside id="categories-3" class="widget widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-1052"><a href="http://www.journaldev.com/dev/angularjs" title="AngularJS articles">AngularJS</a>
+</li>
+	<li class="cat-item cat-item-1298"><a href="http://www.journaldev.com/dev/books" >Books</a>
+</li>
+	<li class="cat-item cat-item-412"><a href="http://www.journaldev.com/dev/database" >Database</a>
+<ul class='children'>
+	<li class="cat-item cat-item-523"><a href="http://www.journaldev.com/dev/database/mongodb" >MongoDB</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1277"><a href="http://www.journaldev.com/dev/giveaways" >Giveaways</a>
+</li>
+	<li class="cat-item cat-item-1323"><a href="http://www.journaldev.com/dev/gradle" >Gradle</a>
+</li>
+	<li class="cat-item cat-item-622"><a href="http://www.journaldev.com/dev/hibernate" >Hibernate</a>
+</li>
+	<li class="cat-item cat-item-768"><a href="http://www.journaldev.com/dev/interview-questions" >Interview Questions</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://www.journaldev.com/dev/java" >Java</a>
+<ul class='children'>
+	<li class="cat-item cat-item-79"><a href="http://www.journaldev.com/dev/java/design-patterns" >Design Patterns</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.journaldev.com/dev/java/j2ee" >Java EE</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-311"><a href="http://www.journaldev.com/dev/jquery" >jQuery</a>
+<ul class='children'>
+	<li class="cat-item cat-item-1029"><a href="http://www.journaldev.com/dev/jquery/jquery-plugins" >jQuery Plugins</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-641"><a href="http://www.journaldev.com/dev/jsf" >JSF</a>
+</li>
+	<li class="cat-item cat-item-1263"><a href="http://www.journaldev.com/dev/logging" >Logging</a>
+</li>
+	<li class="cat-item cat-item-901"><a href="http://www.journaldev.com/dev/maven-2" >Maven</a>
+</li>
+	<li class="cat-item cat-item-1264"><a href="http://www.journaldev.com/dev/node-js" >Node.js</a>
+</li>
+	<li class="cat-item cat-item-422"><a href="http://www.journaldev.com/dev/php" >PHP</a>
+</li>
+	<li class="cat-item cat-item-857"><a href="http://www.journaldev.com/dev/portal-portlets" >Portal and Portlets</a>
+</li>
+	<li class="cat-item cat-item-642"><a href="http://www.journaldev.com/dev/primefaces" >PrimeFaces</a>
+</li>
+	<li class="cat-item cat-item-113"><a href="http://www.journaldev.com/dev/random" >Random</a>
+</li>
+	<li class="cat-item cat-item-121"><a href="http://www.journaldev.com/dev/resources" >Resources</a>
+<ul class='children'>
+	<li class="cat-item cat-item-132"><a href="http://www.journaldev.com/dev/resources/html" >HTML</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1278"><a href="http://www.journaldev.com/dev/scala" >Scala</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.journaldev.com/dev/scripts" >Scripts</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.journaldev.com/dev/softwares" >Softwares</a>
+</li>
+	<li class="cat-item cat-item-539"><a href="http://www.journaldev.com/dev/spring" >Spring</a>
+</li>
+	<li class="cat-item cat-item-511"><a href="http://www.journaldev.com/dev/struts-2" >Struts 2</a>
+</li>
+	<li class="cat-item cat-item-120"><a href="http://www.journaldev.com/dev/web-design" >Web Design</a>
+</li>
+	<li class="cat-item cat-item-405"><a href="http://www.journaldev.com/dev/wordpress" >Wordpress</a>
+</li>
+		</ul>
+</aside><!-- .widget --></div><!--WP Widget Cache End -->
+<!--WP Widget Cache 0.26 Begin -->
+<!--Cache pages-3 for 10000 second(s)-->
+<div class="column onecol"><aside id="pages-3" class="widget widget_pages"><h3 class="widget-title">Pages</h3>		<ul>
+			<li class="page_item page-item-2"><a href="http://www.journaldev.com/about">About</a></li>
+<li class="page_item page-item-2289"><a href="http://www.journaldev.com/advertise-journaldev">Advertise</a></li>
+<li class="page_item page-item-1575"><a href="http://www.journaldev.com/java-interview-questions">Java Interview Questions</a></li>
+<li class="page_item page-item-7131"><a href="http://www.journaldev.com/opanda_privacy_policy">PII Privacy Policy</a></li>
+<li class="page_item page-item-155"><a href="http://www.journaldev.com/privacy-policy">Privacy Policy</a></li>
+<li class="page_item page-item-7738"><a href="http://www.journaldev.com/resources">Resources</a></li>
+<li class="page_item page-item-7130"><a href="http://www.journaldev.com/opanda_terms_of_use">Terms of Use</a></li>
+<li class="page_item page-item-1138"><a href="http://www.journaldev.com/tutorials">Tutorials</a></li>
+<li class="page_item page-item-2029"><a href="http://www.journaldev.com/write-for-us">Write For Us</a></li>
+		</ul>
+		</aside><!-- .widget --></div><!--WP Widget Cache End -->
+		</div><!-- #sidebar-right -->
+	</div><!-- .twocol -->
+	</div><!-- #sidebar -->			</div><!-- #container -->
+				<div id="footer">
+				<div id="footer-area" class="widget-area" role="complementary">
+		<!--WP Widget Cache 0.26 Begin -->
+<!--Cache tag_cloud-3 for 10000 second(s)-->
+<div class="column threecol"><aside id="tag_cloud-3" class="widget widget_tag_cloud"><h3 class="widget-title">Popular Tags</h3><div class="tagcloud"><a href='http://www.journaldev.com/tag/angularjs-tutorials' class='tag-link-1064' title='18 topics' style='font-size: 8.56pt;'>AngularJS Tutorials</a>
+<a href='http://www.journaldev.com/tag/hibernate-2' class='tag-link-623' title='26 topics' style='font-size: 12.76pt;'>hibernate</a>
+<a href='http://www.journaldev.com/tag/hibernate-example' class='tag-link-625' title='19 topics' style='font-size: 9.12pt;'>hibernate example</a>
+<a href='http://www.journaldev.com/tag/hibernate-tutorial' class='tag-link-624' title='19 topics' style='font-size: 9.12pt;'>hibernate tutorial</a>
+<a href='http://www.journaldev.com/tag/java-design-patterns' class='tag-link-447' title='27 topics' style='font-size: 13.32pt;'>java design patterns</a>
+<a href='http://www.journaldev.com/tag/java-file' class='tag-link-282' title='35 topics' style='font-size: 16.4pt;'>java file</a>
+<a href='http://www.journaldev.com/tag/java-interview-questions' class='tag-link-33' title='19 topics' style='font-size: 9.12pt;'>java interview questions</a>
+<a href='http://www.journaldev.com/tag/java-io' class='tag-link-308' title='33 topics' style='font-size: 15.56pt;'>java io</a>
+<a href='http://www.journaldev.com/tag/java-xml' class='tag-link-314' title='22 topics' style='font-size: 10.8pt;'>java xml</a>
+<a href='http://www.journaldev.com/tag/jquery' class='tag-link-311' title='57 topics' style='font-size: 22pt;'>jQuery</a>
+<a href='http://www.journaldev.com/tag/jsf' class='tag-link-641' title='22 topics' style='font-size: 10.8pt;'>JSF</a>
+<a href='http://www.journaldev.com/tag/primefaces-2' class='tag-link-644' title='17 topics' style='font-size: 8pt;'>primefaces</a>
+<a href='http://www.journaldev.com/tag/primefaces-tutorial' class='tag-link-646' title='17 topics' style='font-size: 8pt;'>primefaces tutorial</a>
+<a href='http://www.journaldev.com/tag/scala-programming' class='tag-link-1280' title='19 topics' style='font-size: 9.12pt;'>scala programming</a>
+<a href='http://www.journaldev.com/tag/scala-tutorial' class='tag-link-1279' title='19 topics' style='font-size: 9.12pt;'>scala tutorial</a>
+<a href='http://www.journaldev.com/tag/spring-tutorial' class='tag-link-541' title='21 topics' style='font-size: 10.24pt;'>spring tutorial</a>
+<a href='http://www.journaldev.com/tag/struts-2-2' class='tag-link-512' title='23 topics' style='font-size: 11.36pt;'>struts 2</a>
+<a href='http://www.journaldev.com/tag/struts-2-tutorial' class='tag-link-513' title='19 topics' style='font-size: 9.12pt;'>struts 2 tutorial</a></div>
+</aside><!-- .widget --></div><!--WP Widget Cache End -->
+<!--WP Widget Cache 0.26 Begin -->
+<!--Cache text-6 for 86400 second(s)-->
+<div class="column threecol"><aside id="text-6" class="widget widget_text"><h3 class="widget-title">Tutorials</h3>			<div class="textwidget"><strong>Java Tutorials</strong>:  <a href="http://www.journaldev.com/942/java-io-tutorial">Java IO Tutorial</a>, <a href="http://www.journaldev.com/634/java-regular-expression-tutorial-with-examples">Java Regular Expressions Tutorial</a>, <a href="http://www.journaldev.com/1079/java-thread-tutorial">Java Multi-Threading Tutorial</a>, <a href="http://www.journaldev.com/977/java-logging-api-tutorial-examples-logger-levels-handlers-formatters-filters">Java Logging API Tutorial</a>, <a href="http://www.journaldev.com/721/java-annotations-tutorial-with-custom-annotation-example-and-parsing-using-reflection">Java Annotations Tutorial</a>,<a href="http://www.journaldev.com/1240/java-xml-tutorial">Java XML Tutorial</a>, <a href="http://www.journaldev.com/1260/java-collections-framework-tutorial">Java Collections Tutorial</a>, <a href="http://www.journaldev.com/1663/java-generics-tutorial-example-class-interface-methods-wildcards-and-much-more">Java Generics Tutorial</a>, <a href="http://www.journaldev.com/1696/java-exception-handling-tutorial-with-examples-and-best-practices">Java Exception Handling</a>, <a href="http://www.journaldev.com/1789/java-reflection-tutorial-for-classes-methods-fields-constructors-annotations-and-much-more">Java Reflection Tutorial</a>, <a href="http://www.journaldev.com/1827/java-design-patterns-example-tutorial">Java Design Patterns</a>, <a href="http://www.journaldev.com/2681/jdbc-tutorial-with-example-projects-datasource-jndi-and-spring-integration">JDBC Tutorial</a><br />
+<strong>Java EE</strong>: <a href="http://www.journaldev.com/2114/java-servlet-jsp-tutorial-with-example-programs">Servlet JSP Tutorial</a>, <a href="http://www.journaldev.com/2310/struts2-tutorial-with-example-projects">Struts2 Tutorial</a>, <a href="http://www.journaldev.com/2888/spring-framework-tutorial-with-example-projects">Spring Tutorial</a>, <a href="http://www.journaldev.com/3793/hibernate-tutorial-with-example-projects">Hibernate Tutorial</a>, <a href="http://www.journaldev.com/5516/primefaces-tutorial-with-example-projects">Primefaces Tutorial</a><br />
+<strong>Web Services</strong>: <a href="http://www.journaldev.com/255/axis2-web-services-tutorial">Apache Axis 2 Tutorial</a>, <a href="http://www.journaldev.com/498/rest-using-jersey-complete-tutorial-with-jaxb-exception-handling-and-client-program">Jersey Restful Web Services Tutorial</a><br />
+<strong>Misc</strong>: <a href="http://www.journaldev.com/1117/memcached-tutorial">Memcached Tutorial</a><br /><br />
+<strong>Resources</strong>: <a href="http://journaldev.tradepub.com" rel="nofollow">Free eBooks</a>, <a href="//www.hostmonster.com/track/mygadgetplanet/JournalDev" target="_blank" rel="nofollow">
+My Favorite Web Hosting</a></div>
+		</aside><!-- .widget --></div><!--WP Widget Cache End -->
+<!--WP Widget Cache 0.26 Begin -->
+<!--Cache text-7 for 86400 second(s)-->
+<div class="column threecol"><aside id="text-7" class="widget widget_text"><h3 class="widget-title">Interview Questions</h3>			<div class="textwidget"><a href="http://www.journaldev.com/1321/java-string-interview-questions-and-answers">Java String Interview Questions</a>, 
+<a href="http://www.journaldev.com/1162/java-multi-threading-concurrency-interview-questions-with-answers">Java Multi-Threading Interview Questions</a>, 
+<a href="http://www.journaldev.com/370/5-java-programming-test-questions-for-interview">Java Programming Interview Questions</a>, 
+<a href="http://www.journaldev.com/2366/core-java-interview-questions-and-answers">Java Interview Questions</a>, <a href="http://www.journaldev.com/1330/java-collections-interview-questions-and-answers">Java Collections Interview Questions</a>, <a href="http://www.journaldev.com/2167/java-exception-interview-questions-and-answers">Java Exception Interview Questions</a><br /><br />
+<a href="http://www.journaldev.com/2015/servlet-interview-questions-and-answers">Servlet Interview Questions</a>, <a href="http://www.journaldev.com/2110/jsp-interview-questions-and-answers">JSP Interview Questions</a>, <a href="http://www.journaldev.com/2354/struts2-interview-questions-and-answers">Struts2 Interview Questions</a>, <a href="http://www.journaldev.com/2529/jdbc-interview-questions-and-answers">JDBC Interview Questions</a>, <a href="http://www.journaldev.com/2696/spring-interview-questions-and-answers">Spring Interview Questions</a>, <a href="http://www.journaldev.com/3633/hibernate-interview-questions-and-answers">Hibernate Interview Questions</a></div>
+		</aside><!-- .widget --></div><!--WP Widget Cache End -->
+<!--WP Widget Cache 0.26 Begin -->
+<!--Cache links-3 for 86400 second(s)-->
+<div class="column threecol"><aside id="linkcat-358" class="widget widget_links"><h3 class="widget-title">Be My Friend</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.facebook.com/journaldev" title="Connect on Facebook" target="_blank">Facebook</a></li>
+<li><a href="https://plus.google.com/118104420597648001532/posts?rel=author" title="Connect on Google Plus" target="_blank">Google+</a></li>
+<li><a href="http://twitter.com/JournalDev" title="Follow JournalDev on Twitter" target="_blank">Twitter</a></li>
+
+	</ul>
+</aside><!-- .widget --></div>
+<!--WP Widget Cache End -->
+		<div class="clear"></div>
+	</div><!-- #footer-area -->
+			<div id="copyright">
+				<p class="copyright twocol">&copy; 2015 JournalDev&nbsp;<a href="http://www.journaldev.com/privacy-policy">Privacy Policy</a>&nbsp;Don't copy, it's Bad Karma.</p>
+				<p class="credits twocol">Powered by <a href="http://wordpress.org/" title="WordPress">WordPress</a></p>
+				<div class="clear"></div>
+			</div><!-- #copyright -->
+		</div><!-- #footer -->
+	</div><!-- #wrapper -->
+<div id="mjstpops-main-wrapper"><div id="mjstpops-exit-bg"></div><div id="mjstpops-exit-popup" style="width:530px; background-color:#fff; font-family:'Open Sans', sans-serif; border-radius:4px; margin-left:-265px;">	<div style="width:530px; padding: 15px 30px 30px 30px; box-sizing:border-box;">		<div style="color:#2c2b2a; font-size:14px; text-align:center; line-height:normal;">Subscribe to JournalDev Newsletter</div>		<div style="color:#2c2b2a; font-weight:bold; font-size:36px; text-align:center; margin-top:15px; line-height:42px;">Get the FREE access to JournalDev Newsletter and Free PDF eBooks		</div> </div>	<div style="width:480px; height:242px; margin:0 auto 4px auto; background:#ffecab; border: 1px solid #ffd700; border-radius:4px;">		<input id="mjstpops-name" type="text" placeholder="Your Name..."		style="width:420px; height:48px; border:1px solid #ffe55c; margin:30px 30px 20px 30px; padding:0 15px; background:#fff; color:#95a5a6;		font-size:18px; font-family:'Open Sans', sans-serif; border-radius:4px; text-align:center; line-height:normal; box-sizing:border-box;">		<input id="mjstpops-email" type="email" placeholder="Your Email Address..."		style="width:420px; height:48px; border:1px solid #ffe55c; margin:0 30px 20px 30px; padding:0 15px; background:#fff; color:#95a5a6;		font-size:18px; font-family:'Open Sans', sans-serif; border-radius:4px; text-align:center; line-height:normal; box-sizing:border-box;">		<input id="mjstpops_add_sub" type="submit" value="I AM IN!"		style="width:420px; height:48px; border:none; background:#f7d302; margin:0 30px 30px 30px; padding:10px; cursor:pointer;		color:#836d07; border-bottom:2px solid #dcba00; font-weight:bold; font-size:20px; box-shadow:0px -1px 0px 0px #dcba00 inset;		font-family:'Open Sans', sans-serif; border-radius:4px; line-height:normal; box-sizing:border-box;"		onmouseover="this.style.backgroundColor = '#dcba00'" onmouseout="this.style.backgroundColor = '#f7d302'">	</div>	<div style="width:530px; text-align:center; font-size:11px; color:#b5bdbe; overflow:hidden; margin: 4px; line-height:normal; min-height:11px; font-family:'Open Sans', sans-serif;">*No Spam Guaranteed. By entering your email address, you agree also subscribing to our newsletter.	</div> <span id="mjstpops-exit-close-button"></span><span id="mjstpops-id" style="display:none;">4053</span></div><div id="mjstpops-error-popup-bg"></div><div id="mjstpops-error-popup"> <div id="mjstpops-error-wrapper">		<div id="mjstpops-error-popup-title">Oops! <span class="mjp-error-normal">- Something went wrong.</span></div>		<div id="mjstpops-error-popup-content"></div>		<a href="#" id="mjstpops-error-popup-close">Close</a> </div></div></div><!-- Scroll Triggered Boxes v2.0.2 - https://wordpress.org/plugins/scroll-triggered-boxes/-->			<div class="stb-container stb-bottom-right-container">
+				<div class="scroll-triggered-box stb stb-4065 stb-bottom-right"
+				     id="stb-4065"
+				     style="display: none;">
+					<div class="stb-content">
+						<!-- MailChimp for WordPress v2.3.4 - https://wordpress.org/plugins/mailchimp-for-wp/ --><div id="mc4wp-form-1" class="form mc4wp-form"><form method="post" role="form"><p><h3>Download <a href="http://www.journaldev.com/6308/java-design-patterns-pdf-ebook-free-download-130-pages">Java Design Patterns eBook</a> (130 Pages)</h3>
+<div style="width:400px;height:200px;">
+						<div style="width:200px;height:200px;float:left;"><img src="http://www.journaldev.com/wp-content/uploads/2014/12/3d_book-268x268.png"></div>
+						<div style="width:200px;height:200px;float:right;">
+	<p><label for="mc4wp_email">Email address: </label></p>
+	<p><input type="email" id="mc4wp_email" name="EMAIL" placeholder="Your email address" required /></p>
+<p>
+	<input type="submit" value="Download Now!" />
+</p>
+<p><strong>15940</strong> Happy Subscribers and Counting...</p>
+</div></div>
+</p><input type="text" name="_mc4wp_required_but_not_really" value="" /><input type="hidden" name="_mc4wp_timestamp" value="1433117201" /><input type="hidden" name="_mc4wp_form_id" value="0" /><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" /><input type="hidden" name="_mc4wp_form_submit" value="1" /><input type="hidden" name="_mc4wp_form_nonce" value="d70c26f86c" /></form></div><!-- / MailChimp for WordPress Plugin -->
+					</div>
+					<span class="stb-close">&times;</span>
+				</div>
+			</div>
+			<div id="stb-overlay"></div><!-- / Scroll Triggered Box -->	<!--[if lt IE 9]>
+	<script src="http://www.journaldev.com/wp-content/themes/pinboard/scripts/html5.js" type="text/javascript"></script>
+	<![endif]-->
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/akismet/_inc/form.js?ver=3.1.1'></script>
+	<!--[if lt IE 9]>
+	<script src="http://www.journaldev.com/wp-content/themes/pinboard/scripts/html5.js" type="text/javascript"></script>
+	<![endif]-->
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.9'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0.9'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.journaldev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['class-name'] = 'syntaxhighlighter td  overflow-xscroll important ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<link rel='stylesheet' id='dwpb_style-css'  href='http://www.journaldev.com/wp-content/plugins/dw-promobar/assets/css/main.css?ver=4.2.2' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/anti-spam/js/anti-spam-3.5.js'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"http:\/\/www.journaldev.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/thickbox/thickbox.js?ver=3.1-20121105'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/lib/js/jquery.a-tab.js?ver=4.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpautboxAjax = {"ajaxurl":"http:\/\/www.journaldev.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/wp-author-box-pro/lib/js/jquery.wpautbox.js?ver=4.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-includes/js/comment-reply.min.js?ver=4.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var STB_Global_Options = {"testMode":""};
+var STB_Box_Options = {"4065":{"id":4065,"title":"Subscribe to JournalDev Newsletter","trigger":"percentage","triggerPercentage":40,"triggerElementSelector":"","animation":"slide","cookieTime":0,"autoHide":true,"autoShow":true,"position":"bottom-right","minimumScreenWidth":700}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/scroll-triggered-boxes/assets/js/script.min.js?ver=2.0.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var dwpb = {"timeleft":"-1703201","reset_cookie":"6"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/dw-promobar/assets/js/vendor/jquery.countdown.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/dw-promobar/assets/js/vendor/jquery.cookie.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/dw-promobar/assets/js/main.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/majestic-popups/js/majesticpopups.jquery.cookie.js?ver=1.0.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var mjstpops_logic = {"ajaxurl":"http:\/\/www.journaldev.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.journaldev.com/wp-content/plugins/majestic-popups/js/majesticpopups.logic.js?ver=1.0.1'></script>
+		<style>
+						@font-face {
+        font-family: "0";
+        src: url('');
+      }
+			#dwpb {
+				font-family: 0;
+			}
+			
+						#dwpb,
+			.dwpb-action {
+				background-color: #f7682c;
+			}
+			
+			
+						#dwpb,
+			.dwpb-action,
+			body.dwpb-allow-close.dwpb-open .dwpb-close {
+				color: #fff;
+			}
+			
+						#dwpb {
+				font-size: 16px;
+			}
+			
+			
+			
+						#dwpb {
+				border-width: 0;
+			}
+			
+						#dwpb a {
+				color: #ffffff;
+			}
+			
+						#dwpb .dwpb-button {
+				background-color: #096abf;
+			}
+			
+					</style>
+		
+		<div id="dwpb" class=" fixtop ">
+			<div class="dwpb-inner">
+				
+				<div class="dwpb-message hide">
+					<span class="dwpb-content">Introduction to Web Application Development (376 Pages) PDF eBook FREE</span>
+					 <a class="dwpb-button" href="http://bit.ly/webdev365 " target="_blank"" >Download Now</a>				</div>
+					
+				<div class="dwpb-countdown ">
+					<div class="dwpb-counter"></div>
+					<span class="dwpbcd-content">Video Tutorial Series at 95% Discount, use Coupon Code 'SCOREASKILL'</span>
+					 <a class="dwpb-button" href="http://www.journaldev.com/video-tuts-offer " target="_blank"" >Enroll Now</a>				</div>
+			</div>
+		</div>
+				<span class="dwpb-action"></span>
+	<script type="text/javascript">
+			(function() {
+				function addSubmittedClassToFormContainer(e) {
+					var form = e.target.form.parentNode;
+					var className = 'mc4wp-form-submitted';
+					(form.classList) ? form.classList.add(className) : form.className += ' ' + className;
+				}
+
+				function hideHoneypot(h) {
+					var n = document.createElement('input');
+					n.type = 'hidden';
+					n.name = h.name;
+					n.style.display = 'none';
+					n.value = h.value;
+					h.parentNode.replaceChild(n,h);
+				}
+
+				var forms = document.querySelectorAll('.mc4wp-form');
+				for (var i = 0; i < forms.length; i++) {
+					(function(f) {
+
+						// make sure honeypot is hidden
+						var h = f.querySelector('input[name="_mc4wp_required_but_not_really"]');
+						if(h) {
+							hideHoneypot(h);
+						}
+
+						// add class on submit
+						var b = f.querySelector('[type="submit"]');
+						if(b.addEventListener) {
+							b.addEventListener('click', addSubmittedClassToFormContainer);
+						} else {
+							b.attachEvent('click', addSubmittedClassToFormContainer);
+						}
+
+					})(forms[i]);
+				}
+			})();
+
+					</script><script src="https://apis.google.com/js/platform.js" async defer></script>
+<!-- <script async type="text/javascript" src="//cdn.fancybar.net/ac/fancybar.js?zoneid=1502&serve=C6ADVKE&placement=journaldev" id="_fancybar_js"></script> -->
+</body>
+</html>
+<!-- Dynamic page generated in 0.381 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-05-31 17:06:41 -->
+
+<!-- Compression = gzip -->

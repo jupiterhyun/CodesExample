@@ -1,0 +1,94 @@
+package com.mycompany.guicetest;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
+import com.google.inject.BindingAnnotation;
+import com.google.inject.Provider;
+import com.google.inject.Provides;
+import com.google.inject.assistedinject.Assisted;//in com.google.inject.extensions
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import java.lang.annotation.Target;
+import java.lang.annotation.Retention;
+import java.util.Date;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import java.time.Instant;
+
+
+interface Payment {
+}
+interface CreditService {
+    void run();
+}
+interface AuthService {
+    void run();
+}
+class ChassCreditService implements CreditService {
+    @Override
+    public void run() { System.out.println("Chass credit running"); }
+}
+class ChassAuthService implements AuthService {
+    @Override
+    public void run() { System.out.println("Chass auth running"); }
+}
+class RealPayment implements Payment{
+    @Inject private PaymentFactory paymentFactory;
+    CreditService creditService;
+    AuthService authService;
+    Date day;
+    Double amount;
+    @Inject
+    RealPayment(
+        CreditService creditService, 
+        AuthService authService,
+        @Assisted Date day,
+        @Assisted Double amount
+        ){
+            this.creditService = creditService;
+            this.authService = authService;
+            this.day = day;
+            this.amount = amount;
+        };
+    void runCredit() {
+        creditService.run();
+    }
+    void runAuth() {
+        authService.run();
+    }
+    void runday() {
+        Payment p = paymentFactory.create(Date.from(Instant.EPOCH), 3);
+        System.out.println(day);
+    }
+    void runmoney() {
+        System.out.println(amount);
+    }
+}
+interface PaymentFactory {
+  public Payment create(Date startDate, double amount);
+}
+
+class SomeModule extends AbstractModule {
+    @Override
+    protected void configure() {
+       install(new FactoryModuleBuilder()
+            .implement(Payment.class, RealPayment.class)
+            .build(PaymentFactory.class));
+    }
+}
+
+public class GuiceTest {
+
+    public static void main(String[] args) {
+        Injector i = Guice.createInjector(new SomeModule());
+        RealPayment mod = i.getInstance(RealPayment.class);
+        mod.runCredit();
+        //mod.runday();
+        //mod.runmoney();
+    }
+}
