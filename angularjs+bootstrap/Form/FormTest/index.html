@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="formExample">
+    <head  >
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+        <title>Bootstrap forms with AngulerJS</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body>
+        <div ng-controller="ExampleController">
+            <div class="col-sm-4">
+                <form novalidate class="simple-form">
+                    Name: <input type="text" ng-model="user.name" /><br />
+                    E-mail: <input type="email" ng-model="user.email" /><br />
+                    Gender: <input type="radio" ng-model="user.gender" value="male" />male
+                    <input type="radio" ng-model="user.gender" value="female" />female<br />
+                    Review: <br />
+                    <textarea ng-model="user.review" value="review"></textarea><br />
+                    <input type="button" ng-click="reset()" value="Reset" />
+                    <input type="submit" ng-click="update(user)" value="Save" />
+                </form>
+                <pre>form = {{user| json}}</pre>
+                <pre>master = {{master| json}}</pre>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>email</th>
+                            <th>Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in master" ng-click="showreivew($index)">
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.gender}}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="col-sm-4">
+                <span ng-bind="review"></span>
+            </div>
+            
+        </div>
+
+        <script>
+            var myApp = angular.module('formExample', []);
+            myApp.controller('ExampleController', ['$scope', function ($scope) {
+                    $scope.master = data;
+
+                    $scope.update = function (user) {
+//                        $scope.master = angular.copy(user);
+                        $scope.master.push(angular.copy(user));
+                    };
+
+                    $scope.reset = function () {
+//                        $scope.user = angular.copy($scope.master);
+                        $scope.user = {};
+
+                    };
+                    $scope.showreivew = function(index) {
+                        $scope.review = $scope.master[index].review;
+                    }
+                    var flag=false;
+                    $scope.toggle = function() {
+                        this.flag= !this.flag;
+                        return this.flag;
+                    }
+                  
+                }]);
+
+
+
+          var data =
+                  [
+              {
+                  'name':'jime simile',
+                  'email':'abc@gmial.com',
+                  'gender':'female',
+                  'review':'this is a women'
+              }  
+                  ];
+
+
+
+
+        </script>
+    </body>
+</html>
