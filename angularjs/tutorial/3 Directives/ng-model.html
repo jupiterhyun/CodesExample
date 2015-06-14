@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <body>
+
+        <div ng-app="" ng-init="quantity = 1;price = 5;
+            names=[
+                    {name:'Jani',country:'Norway'},
+                    {name:'Hege', country:'Sweden'},
+                    {name:'Kai', country:'Denmark'}]">
+            Quantity: <input type="number" ng-model="quantity">
+            Costs:    <input type="number" ng-model="price">
+            <p>Total in dollar: {{ quantity * price}}</p>
+            <p>Total in dollar: <span ng-bind ="quantity * price"></span></p>
+                <p ng-bind ="quantity * price">Total in dollar: </p>
+            <ul>
+                <li ng-repeat="x	in names">
+                    {{ x.name + ', ' + x.country }}
+                </li>
+            </ul>
+
+            
+        </div>
+
+    </body>
+</html>

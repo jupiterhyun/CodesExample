@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="phonecatApp">
+    <head>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <title>fuck Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body ng-controller="PhoneListCtrl">
+        <p>test</p>
+        <p>{{phones.length}}</p>
+        
+<!--        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">     
+                    Search: <input ng-model="query"> filter 
+                    Sort by:
+                    <select ng-model="orderProp">
+                        <option value="name">Alphabetical</option>
+                        <option value="age">Newest</option>
+                    </select>
+
+                </div>
+                <div class="col-md-10">
+                    Body content
+                    <ul class="phones">
+                        <li ng-repeat="phone in phones| filter:query | orderBy:orderProp">
+                            <span>{{phone.name}}</span>
+                            <p>{{phone.snippet}}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p>test</p>
+            <div class="row">
+                <div class="col-md-10">
+                    Body content
+                    <ul class="phones">
+                        <li ng-repeat="phone in testphones">
+                            <span>{{phone.name}}</span>
+                            <p>{{phone.snippet}}</p>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>-->
+
+    </body>
+</html>
