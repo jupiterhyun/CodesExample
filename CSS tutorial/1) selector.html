@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	/*
+	element selector
+	*/
+p {
+    text-align: center;
+    color: red;
+} 
+/*
+	id selector
+*/
+#para1 {
+    text-align: center;
+    color: yellow;
+}
+/*
+	class selector
+*/
+.center {
+    text-align: center;
+    color: blue;
+}
+
+</style>
+</head>
+<body>
+
+<p>Every paragraph will be affected by the style.</p>
+<p id="para1">Me too!</p>
+<p>And me!</p>
+
+<p id="para1">Hello World!</p>
+<p>This paragraph is not affected by the style.</p>
+
+<h1 class="center">Red and center-aligned heading</h1>
+<p class="center">Red and center-aligned paragraph.</p> 
+</body>
+</html>
+<!--
+Generally speaking we can say that all the styles will "cascade" into a new "virtual" style sheet by the following rules,
+where number three has the highest priority:
+
+Browser default
+External and internal style sheets (in the head section)
+Inline style (inside an HTML element)
+
+Note: If the link to the external style sheet is placed below the internal style sheet in HTML <head>,
+ the external style sheet will override the internal style sheet!
+
+-->

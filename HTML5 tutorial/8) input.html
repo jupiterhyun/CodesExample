@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1> text</h1>
+<form action="action_page.php">
+First name:<br>
+<input type="text" name="firstname">
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+<br><br>
+<input type="submit">
+</form>
+
+<p>Note that the form itself is not visible.</p>
+<p>Also note that the default width of a text field is 20 characters.</p>
+
+
+<h1> password</h1>
+<form action="">
+User name:<br>
+<input type="text" name="userid">
+<br>
+User password:<br>
+<input type="password" name="psw">
+</form>
+
+<p>The characters in a password field are masked (shown as asterisks or circles).</p>
+
+
+
+<h1> submit</h1>
+<form action="action_page.php">
+First name:<br>
+<input type="text" name="firstname" value="Mickey">
+<br>
+Last name:<br>
+<input type="text" name="lastname" value="Mouse">
+<br><br>
+<input type="submit" value="Submit">
+</form> 
+
+<p>If you click "Submit", the form-data will be sent to a page called "action_page.php".</p>
+
+<h1> radio</h1>
+<form action="action_page.php">
+<input type="radio" name="sex" value="male" checked>Male
+<br>
+<input type="radio" name="sex" value="female">Female
+<br><br>
+<input type="submit">
+</form> 
+
+<h1> checkbox</h1>
+<form action="action_page.php">
+<input type="checkbox" name="vehicle" value="Bike">I have a bike
+<br>
+<input type="checkbox" name="vehicle" value="Car">I have a car 
+<br><br>
+<input type="submit">
+</form> 
+
+<h1> button</h1>
+<input type="button" onclick="alert('Hello World!')" value="Click Me!">
+
+<h1> number</h1>
+<p>
+Depending on browser support:<br>
+Numeric restrictions will apply in the input field.
+</p>
+
+<form action="action_page.php">
+  Quantity (between 1 and 5):
+  <input type="number" name="quantity" min="1" max="5">
+  <input type="submit">
+</form>
+
+<p><b>Note:</b> type="number" is not supported in IE9 and earlier.</p>
+
+<h1>input Restrictions</h1>
+<p>
+Depending on browser support:<br>
+Fixed steps will apply in the input field.
+</p>
+
+<form action="action_page.php">
+  Quantity:
+  <input type="number" name="points"
+   min="0" max="100" step="10" value="30">
+  <input type="submit">
+</form>
+
+<p><b>Note:</b>type="number" is not supported in IE9 and earlier.
+</p>
+
+<h1>input date</h1>
+<p>
+Depending on browser support:<br>
+A date picker can pop-up when you enter the input field.
+</p>
+
+<form action="action_page.php">
+  Birthday:
+  <input type="date" name="bday">
+  <input type="submit">
+</form>
+
+<p><b>Note:</b> type="date" is not supported in Internet Explorer.</p>
+
+<h1>input time</h1>
+<p>
+Depending on browser support:<br>
+A time picker might pop-up when you enter the input field.
+</p>
+
+<form action="action_page.php">
+  Select a time:
+  <input type="time" name="usr_time">
+  <input type="submit">
+</form>
+
+<p><b>Note:</b>
+type="time" is not supported in Firefox or Internet Explorer.
+</p>
+
+
+<h1>input email</h1>
+<form action="action_page.php">
+  E-mail:
+  <input type="email" name="email">
+  <input type="submit">
+</form>
+
+<p>
+<b>Note:</b>type="email" is not supported in IE9 and earlier.</p>
+
+
+<h1>input search</h1>
+<form action="action_page.php">
+  Search Google:
+  <input type="search" name="googlesearch">
+  <input type="submit">
+</form>
+
+<h1>input url</h1>
+<form action="action_page.php">
+  Add your homepage:
+  <input type="url" name="homepage">
+  <input type="submit">
+</form>
+
+<p><b>Note:</b>
+The type="url" is not supported in IE9 and earlier versions.</p>
+
+
+
+
+<h1 style="color:red">input Attribute</h1>
+<h1>input readonly</h1>
+<form action="">
+First name:<br>
+<input type="text" name="firstname" value ="John" readonly>
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+</form>
+
+<h1>input disabled</h1>
+<form action="">
+First name:<br>
+<input type="text" name="firstname" value ="John" disabled>
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+</form>
+
+<h1>input size</h1>
+<form action="">
+First name:<br>
+<input type="text" name="firstname" value ="John" size="40">
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+</form>
+
+
+<h1>input maxlength</h1>
+<form action="">
+First name:<br>
+<input type="text" name="firstname" maxlength="10">
+<br>
+Last name:<br>
+<input type="text" name="lastname">
+</form>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

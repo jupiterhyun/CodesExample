@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div > p {
+    background-color: yellow;
+}
+div + p {
+    background-color: red;
+}
+div ~ h1 {
+    background-color: blue;
+}
+</style>
+</head>
+<body>
+
+<div>
+  <p>Paragraph 1 in the div.</p>
+  <p>Paragraph 2 in the div.</p>
+  <span><p>Paragraph 3 in the div.</p></span> <!-- not Child but Descendant -->
+</div>
+
+<p>Paragraph 4. Not in a div.</p>
+<p>Paragraph 5. Not in a div.</p>
+
+<h1>muhahah</h1>
+<h1>hehehehehe</h1>
+
+</body>
+</html>
