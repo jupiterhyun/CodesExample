@@ -1,0 +1,61 @@
+angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
+angular.module('ui.bootstrap.demo').controller('DropdownCtrl', function ($scope) {
+  $scope.items = [
+    'The first choice!',
+    'And another choice for you.',
+    'but wait! A third!'
+  ];
+
+  $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggled = function(open) {
+    console.log('Dropdown is now: ', open);
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+  
+  
+  $scope.avatars = ['cutlery', 'eye-open', 'flag', 'flash', 'glass', 'fire'];
+                        var initString = '--Presets--';
+                        $scope.selected = initString;
+                        
+
+                        $scope.getAvatar = function () {
+                            return 'glyphicon glyphicon-remove';
+                        };
+                        $scope.open = function () {
+                            isopen = true;
+                        };
+                        $scope.clicked = function (avatar, $event) {
+                            for (var i = 0; i < $scope.avatars.length; i++)
+                                if ($scope.avatars[i] === avatar) {
+                                    $scope.avatars.splice(i, 1);
+                                    if ($scope.selected === avatar) $scope.selected = initString; 
+                                    break;
+                                }
+                            console.log($scope.status.isopen);
+                            $event.preventDefault();
+                            $event.stopPropagation();
+                            //$scope.status.isopen = !$scope.status.isopen;
+                        };
+
+                        $scope.setSelected = function (choosed) {
+                            $scope.selected = choosed;
+                        };
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+});

@@ -1,0 +1,70 @@
+<html ng-app="myApp" ng-controller="myCtrl">
+    <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>  <style>
+        .custom {
+            width: 160px !important;
+        }
+
+    </style>
+    <body>
+
+        <div class="btn-group" >
+            <button type="button" class="btn btn-primary dropdown-toggle custom" data-toggle="dropdown">
+                {{selected}}  &nbsp; <span class="caret" style=""></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li class="list-group-item list-group-item-info" ng-repeat="avatar in avatars" ng-click="setSelected(avatar)">
+                    {{avatar}}
+                    <span class="pull-right" ng-class="getAvatar()" ng-click="clicked(avatar, $event)" style="color:red;float:right"></span>
+                </li>
+            </ul>
+
+
+
+        </div>
+
+
+        <hr>
+
+
+
+        <script>
+                    var app = angular.module('myApp', []);
+                    app.controller('myCtrl', function ($scope) {
+                        $scope.lastNames = ['Doe', 'bee', 'Ace', 'nbc', 'bbc', 'ddc'];
+                        $scope.avatars = ['cutlery', 'eye-open', 'flag', 'flash', 'glass', 'fire'];
+                        var initString = '--Presets--';
+                        $scope.selected = initString;
+                        
+
+                        $scope.getAvatar = function () {
+                            return 'glyphicon glyphicon-remove';
+                        };
+                        $scope.open = function () {
+                            isopen = true;
+                        };
+                        $scope.clicked = function (avatar, $event) {
+                            for (var i = 0; i < $scope.avatars.length; i++)
+                                if ($scope.avatars[i] === avatar) {
+                                    $scope.avatars.splice(i, 1);
+                                    if ($scope.selected === avatar) $scope.selected = initString; 
+                                    break;
+                                }
+                            console.log("here");
+                            $event.preventDefault();
+                            $event.stopPropagation();
+                           
+                        };
+
+                        $scope.setSelected = function (choosed) {
+                            $scope.selected = choosed;
+                        };
+
+
+                    });
+        </script>
+
+    </body>
+</html>
