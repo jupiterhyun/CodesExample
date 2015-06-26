@@ -17,7 +17,7 @@
             <ul class="dropdown-menu" role="menu">
                 <li class="list-group-item list-group-item-info" ng-repeat="avatar in avatars" ng-click="setSelected(avatar)">
                     {{avatar}}
-                    <span class="pull-right" ng-class="getAvatar()" ng-click="clicked(avatar, $event)" style="color:red;float:right"></span>
+                    <span class="pull-right" ng-class="getAvatar()" ng-click="clicked(avatar, $event)" style="color:red;float:right" tooltip-toggle="tooltip" data-placement="top" tooltip="Hooray! **********"  ></span>
                 </li>
             </ul>
 
