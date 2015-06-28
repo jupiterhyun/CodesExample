@@ -1,0 +1,26 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"rel="stylesheet" />
+
+<div ng-app="sortableApp" ng-controller="sortableController" class="container">
+  <h2>ui.sortable + bootstrap tabs demo</h2>
+
+  <div class="floatleft">
+    
+    <ul ui-sortable="sortableOptions" ng-model="list" class="nav nav-tabs" data-tabs="tabs">
+      <li ng-class="{active: item.active}" ng-repeat="item in list">
+        <a href="#tab-{{item.value}}" data-toggle="tab" ng-bind="item.text"></a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="item tab-pane" ng-class="{active: item.active}"        id="tab-{{item.value}}" ng-bind="item.text" ng-repeat="item in list"></div>
+    </div>
+
+  </div>
+  
+  <div class="clear"></div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+</div>
