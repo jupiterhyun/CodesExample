@@ -1,0 +1,77 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.js"></script>
+        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+        <script src="example.js"></script>
+        <script src="angular-ui-tree.js"></script>
+        <script src="sortable.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="angular-ui-tree.min.css">
+        <style>
+            .custom {
+                width: 160px !important;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div ng-controller="DropdownCtrl">
+
+            <div ui-tree>
+                <ol ui-tree-nodes="" ng-model="list">
+                    <li ng-repeat="item in list" ui-tree-node>
+                        <div ui-tree-handle>
+                            {{item.title}}
+                        </div>
+                        <ol ui-tree-nodes="" ng-model="item.items">
+                            <li ng-repeat="subItem in item.items" ui-tree-node>
+                                <div ui-tree-handle>
+                                    {{subItem.title}}
+                                </div>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+
+            <hr>
+
+            <ul ui-sortable ng-model="list" class="list">
+                <li ng-repeat="item in list" class="item">
+                    {{item.title}}
+                </li>
+            </ul>
+
+            <!-- Single button -->
+            <div class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" class="btn btn-primary dropdown-toggle custom" dropdown-toggle ng-disabled="disabled">
+                    {{selected}}  &nbsp; <span class="caret" style=""></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="list-group-item list-group-item-info" ng-click="setSelected(avatar)">
+
+                        <!--                        {{avatar}}
+                                                <span class="pull-right" ng-class="getAvatar()" ng-click="clicked(avatar, $event)" style="color:red;float:right"></span>-->
+                        <ul ui-sortable ng-model="list" class="list">
+                            <li ng-repeat="item in list" class="item">
+                                {{item.title}}
+                                <span class="pull-right" ng-class="getAvatar()" ng-click="clicked(avatar, $event)" style="color:red;float:right"></span>
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </div>
+
+            <hr />
+            <p>
+                <button type="button" class="btn btn-default btn-sm" ng-click="toggleDropdown($event)">Toggle button dropdown</button>
+                <button type="button" class="btn btn-warning btn-sm" ng-click="disabled = !disabled">Enable/Disable</button>
+            </p>
+
+        </div>
+    </body>
+</html>

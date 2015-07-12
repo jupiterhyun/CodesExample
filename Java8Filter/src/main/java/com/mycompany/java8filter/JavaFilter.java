@@ -43,7 +43,8 @@ public class JavaFilter {
         
          */
         /**
-         * *********************Lambda expression exmaple ***********************************
+         * *********************Lambda expression exmaple
+         * ***********************************
          */
         System.out.println("=== RunnableTest ===");
         // Anonymous Runnable
@@ -81,7 +82,7 @@ public class JavaFilter {
         //map
         List<Integer> squaresList = list.stream().map(i -> i * i).distinct().collect(Collectors.toList());
         squaresList.forEach(s -> System.out.println(s));
-        //
+        //map returns a one key collection like List
         List<String> words = Arrays.asList("Oracle", "Java", "Magazine");
         List<Integer> wordLengths
                 = words.stream()
@@ -134,7 +135,8 @@ public class JavaFilter {
                 .filter(fullPredicate)
                 .collect(Collectors.toList());
         /**
-         * *********************************statistic methods*******************************************************************
+         * *********************************statistic
+         * methods*******************************************************************
          */
         //count number
         long totalPilots = roster
@@ -181,7 +183,7 @@ public class JavaFilter {
                         (a, b) -> a + b);//accumulator
         Integer totalAge2 = roster
                 .stream()
-//        Collectors.averagingDouble(null)
+                //        Collectors.averagingDouble(null)
                 .collect(Collectors.summingInt(Person::getAge)
                 );
         //check the meanings, 
@@ -270,9 +272,16 @@ public class JavaFilter {
                 .collect(Collectors.toList());
 
         clean.forEach(n -> System.out.println(n));
+
+        //Function identity res = a -> a, b->b, c->c 
+        Map<String, String> res = Arrays.asList("a", "b", "c")
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), str -> str));
         
+        
+        
+
         //open file and sort words
-        
     }
 
     public static void evaluate(List<Integer> list, Predicate<Integer> predicate) {
