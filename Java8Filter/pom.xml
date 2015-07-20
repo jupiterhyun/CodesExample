@@ -12,11 +12,16 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-<!--    <dependencies>
-        <dependency>
+    <dependencies>
+<!--        <dependency>
             <groupId>net.sourceforge.streamsupport</groupId>
             <artifactId>streamsupport</artifactId>
             <version>1.2.1</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.codepoetics</groupId>
+            <artifactId>protonpack</artifactId>
+            <version>1.4</version>
         </dependency>
-    </dependencies>-->
+    </dependencies>
 </project>

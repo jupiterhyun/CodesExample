@@ -3,12 +3,14 @@ package com.mycompany.java8filter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.OptionalDouble;
 import java.util.IntSummaryStatistics;
-
+import com.codepoetics.protonpack.StreamUtils;
 import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.function.Function;
@@ -277,9 +279,84 @@ public class JavaFilter {
         Map<String, String> res = Arrays.asList("a", "b", "c")
                 .stream()
                 .collect(Collectors.toMap(Function.identity(), str -> str));
-        
-        
-        
+
+        //flatmap
+        List<List<String>> team = new ArrayList<>();
+        List<String> polyglot = new ArrayList<>();
+        polyglot.add("clojure");
+        polyglot.add("scala");
+        polyglot.add("groovy");
+        polyglot.add("go");
+
+        List<String> busy = new ArrayList<>();
+        busy.add("java");
+        busy.add("javascript");
+
+        team.add(polyglot);
+        team.add(busy);
+        List<String> teamLanguages = team.stream()
+                //.map(d -> d)
+                .flatMap(l -> l.stream())
+                .collect(Collectors.toList());
+
+        //complicated example
+        Map<Integer, Map<Integer, Map<String, Object>>> complicated = new HashMap<>();
+        List<Map<String, Object>> simpled = new ArrayList<>();
+
+        Map<String, Object> objs = new HashMap<>();
+        objs.put("muhahha", 90);
+        objs.put("hehehe", 100);
+        Map<Integer, Map<String, Object>> simples = new HashMap<>();
+        simples.put(10, objs);
+        simples.put(11, objs);
+        simples.put(12, objs);
+        simples.put(13, objs);
+        complicated.put(1, simples);
+        Map<Integer, Map<String, Object>> simples1 = new HashMap<>();
+        simples1.put(14, objs);
+        simples1.put(15, objs);
+        complicated.put(2, simples1);
+        //flatMap example
+        List<Object> a = complicated.entrySet()
+                .stream()
+                .map(
+                        entry
+                        -> entry.getValue().entrySet().stream()
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toList())
+                ).flatMap(l -> l.stream())
+                .collect(Collectors.toList());
+
+        simpled = complicated.entrySet()
+                .stream()
+                .map(
+                        entry -> {
+                            Map<String, Object> row = new HashMap<>();
+                            List<Integer> sim = entry.getValue().entrySet().stream()
+                            .map(Map.Entry::getKey)
+                            .collect(Collectors.toList());
+                            row.put("aggs", entry.getKey());
+                            row.put("sims", sim);
+                            return row;
+                        }
+                )
+                .collect(Collectors.toList());
+  
+        List<Object> b = complicated.entrySet()
+                .stream()
+                .map(
+                        entry -> 
+                                StreamUtils.zip(
+                                        entry.getKey(),
+                                        entry.getValue().entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()),
+                                        (key, value) -> {
+                                            Map<Integer, Object> tmp = new HashMap<>();
+                                            tmp.put("aggs", key);
+                                            tmp.put("sims", value);
+                                            return tmp;
+                                        })
+                        )
+        ).collect(Collectors.toList());
 
         //open file and sort words
     }
